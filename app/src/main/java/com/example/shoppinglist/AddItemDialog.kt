@@ -17,20 +17,20 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 @Preview
-fun AddContactDialogPreview() {
+fun AddContactItemPreview() {
     val state = ItemState(
         name = "Paprika",
         quantity = "2",
     )
 
-    AddContactDialog(
+    AddItemDialog(
         state = state,
         onEvent = {}
     )
 }
 
 @Composable
-fun AddContactDialog(
+fun AddItemDialog(
     state: ItemState,
     onEvent: (ItemEvent) -> Unit,
     modifier: Modifier = Modifier
@@ -40,7 +40,7 @@ fun AddContactDialog(
         onDismissRequest = {
             onEvent(ItemEvent.HideDialog)
         },
-        title = { Text(text = "Add Contact") },
+        title = { Text(text = "Add Item") },
         text = {
             Column (
                 verticalArrangement = Arrangement.spacedBy(8.dp)
