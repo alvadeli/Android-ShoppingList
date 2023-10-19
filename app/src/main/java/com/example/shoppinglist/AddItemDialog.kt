@@ -40,7 +40,6 @@ fun AddItemDialog(
         onDismissRequest = {
             onEvent(ItemEvent.HideDialog)
         },
-        title = { Text(text = "Add Item") },
         text = {
             Column (
                 verticalArrangement = Arrangement.spacedBy(8.dp)

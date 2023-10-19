@@ -1,18 +1,19 @@
-package com.example.shoppinglist
+package com.example.shoppinglist.data
 
 import androidx.room.*
+import com.example.shoppinglist.data.Item
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ItemDao {
     @Upsert
-    suspend fun upsertItem(item: Item) : Long
+    suspend fun upsertItem(item: Item)
 
     @Delete
     suspend fun deleteItem(item: Item)
 
-    @Update
-    suspend fun updateItem(item: Item)
+    @Query("SELECT * FROM item WHERE id = :id")
+    suspend fun getItemById(id:Int): Item?
 
     @Query("SELECT * FROM item")
     fun getItems(): Flow<List<Item>>

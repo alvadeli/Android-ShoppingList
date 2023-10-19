@@ -1,8 +1,9 @@
 package com.example.shoppinglist
 
-import androidx.core.location.LocationRequestCompat.Quality
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.shoppinglist.data.Item
+import com.example.shoppinglist.data.ItemDao
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
@@ -42,9 +43,9 @@ class ShoppingListViewModel(private val dao: ItemDao) :
                 }
 
                 val item = Item(
-                    Quantity = quantity,
-                    Name = name,
-                    Completed = false
+                    quantity = quantity,
+                    name = name,
+                    isDone = false
                 )
 
                 viewModelScope.launch {
@@ -72,11 +73,13 @@ class ShoppingListViewModel(private val dao: ItemDao) :
                 ) }
             }
 
-            is ItemEvent.UpdateItem -> {
+            is ItemEvent.OnDoneChange -> {
                 viewModelScope.launch {
-                    dao.updateItem(event.item)
+                    dao.upsertItem(event.item.copy(isDone = event.isCompleted))
                 }
             }
+
+            ItemEvent.OnTodoClick -> TODO()
         }
 
     }
