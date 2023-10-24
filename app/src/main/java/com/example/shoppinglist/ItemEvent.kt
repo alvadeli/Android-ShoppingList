@@ -7,7 +7,7 @@ sealed interface ItemEvent {
     data class SetQuantity(val quantity: String) : ItemEvent
     data class SetName(val name: String) : ItemEvent
     data class OnDoneChange(val item: Item, val isCompleted: Boolean) : ItemEvent
-    object OnTodoClick: ItemEvent
+    data class OnItemClick(val item: Item): ItemEvent
     object ShowDialog: ItemEvent
     object HideDialog: ItemEvent
 

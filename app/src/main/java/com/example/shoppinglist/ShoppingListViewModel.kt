@@ -3,13 +3,13 @@ package com.example.shoppinglist
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.shoppinglist.data.Item
-import com.example.shoppinglist.data.ItemDao
+import com.example.shoppinglist.data.ItemRepository
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
-class ShoppingListViewModel(private val dao: ItemDao) :
+class ShoppingListViewModel(private val itemRepository: ItemRepository) :
     ViewModel() {
-    private val _items = dao.getItems()
+    private val _items = itemRepository.getItems()
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
     private val _state = MutableStateFlow(ItemState())
 
@@ -37,6 +37,7 @@ class ShoppingListViewModel(private val dao: ItemDao) :
             ItemEvent.SaveItem -> {
                 val name =state.value.name
                 val quantity = state.value.quantity
+                val id = state.value.id
 
                 if(name.isBlank() || quantity.isBlank()){
                     return
@@ -45,18 +46,20 @@ class ShoppingListViewModel(private val dao: ItemDao) :
                 val item = Item(
                     quantity = quantity,
                     name = name,
-                    isDone = false
+                    isDone = false,
+                    id= id
                 )
 
                 viewModelScope.launch {
-                    dao.upsertItem(item)
+                    itemRepository.upsertItem(item)
                 }
 
                 _state.update {it.copy(
                     isAddingItem = false,
                     name = "",
                     quantity = "",
-                    completed = false
+                    completed = false,
+                    id = 0
                 )}
 
 
@@ -75,12 +78,25 @@ class ShoppingListViewModel(private val dao: ItemDao) :
 
             is ItemEvent.OnDoneChange -> {
                 viewModelScope.launch {
-                    dao.upsertItem(event.item.copy(isDone = event.isCompleted))
+                    itemRepository.upsertItem(event.item.copy(isDone = event.isCompleted))
                 }
             }
 
-            ItemEvent.OnTodoClick -> TODO()
+            is ItemEvent.OnItemClick -> {
+                viewModelScope.launch{
+                    val item = itemRepository.getItemById(event.item.id)
+                    _state.update {it.copy(
+                        isAddingItem = true,
+                        name = item?.name ?: "",
+                        quantity = item?.quantity ?: "",
+                        id = item?.id ?:0
+                    )}
+
+                }
+
+            }
         }
 
     }
 }
+

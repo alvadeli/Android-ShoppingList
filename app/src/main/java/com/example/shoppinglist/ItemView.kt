@@ -1,5 +1,6 @@
 package com.example.shoppinglist
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -51,7 +52,9 @@ fun ItemView(
             Text(
                 text = createItemString(item),
                 fontSize = 20.sp,
-
+                modifier = Modifier.clickable{
+                    onEvent(ItemEvent.OnItemClick(item))
+                }
                 )
         }
         Checkbox(

@@ -8,5 +8,6 @@ data class ItemState(
     val name: String = "",
     val completed: Boolean = false,
     val isAddingItem: Boolean = false,
+    val id: Int = 0
 )
 

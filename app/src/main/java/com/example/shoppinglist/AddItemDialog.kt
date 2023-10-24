@@ -74,7 +74,8 @@ fun AddItemDialog(
                 Button(onClick = {
                     onEvent(ItemEvent.SaveItem)
                 }){
-                    Text(text = "Add")
+                    val text = if (state.id == 0) "Add" else "Update"
+                    Text(text = text)
                 }
             }
         }
