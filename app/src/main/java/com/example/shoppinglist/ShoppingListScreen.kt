@@ -12,43 +12,26 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.shoppinglist.data.Item
+import com.example.shoppinglist.data.ItemRepositoryImpl
 
-
-//@Composable
-//@Preview
-//fun ShoppingListScreenPreview() {
-//
-//    var item1 = Item(
-//        quantity = "2",
-//        name = "Paprika",
-//        isDone = true
-//    )
-//
-//    var item2 = Item(
-//        quantity = "3",
-//        name = "Onions",
-//        isDone = false
-//    )
-//    var items = listOf<Item>(item1,item2)
-//
-//    val state = ItemState(
-//        items = items
-//    )
-//
-//    ShoppingListScreen(
-//        state = state,
-//        onEvent = {}
-//    )
-//}
 
 @Composable
 fun ShoppingListScreen(
     state: ItemState,
-    viewModel: ShoppingListViewModel
+    viewModel: ShoppingListVM
 ){
-
     Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text("Shopping List")
+                },
+                modifier = Modifier.fillMaxWidth()
+            )
+        },
         floatingActionButton = {
             FloatingActionButton(onClick = {
                 viewModel.onEvent(ItemEvent.ShowDialog)
@@ -59,29 +42,35 @@ fun ShoppingListScreen(
                 )
             }
         },
-        modifier = Modifier.padding(20.dp)
     ){ padding ->
-        if (state.isAddingItem){
-            AddItemDialog(state = state, onEvent = viewModel::onEvent)
-        }
-
-        LazyColumn(
-            contentPadding = padding,
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(20.dp)
         ) {
 
-            items(state.items)
-            {item ->
-                ItemView(
-                    item = item,
-                    onEvent = viewModel::onEvent,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable{
-                        viewModel.onEvent(ItemEvent.OnItemClick(item))
-                    }
-                )
+            if (state.isAddingItem){
+                AddItemDialog(state = state, onEvent = viewModel::onEvent)
+            }
+
+            LazyColumn(
+                contentPadding = padding,
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+
+                items(state.items)
+                {item ->
+                    ItemView(
+                        item = item,
+                        onEvent = viewModel::onEvent,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable {
+                                viewModel.onEvent(ItemEvent.OnItemClick(item))
+                            }
+                    )
+                }
             }
         }
     }

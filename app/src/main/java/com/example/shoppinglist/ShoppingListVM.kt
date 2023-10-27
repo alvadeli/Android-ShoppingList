@@ -7,7 +7,7 @@ import com.example.shoppinglist.data.ItemRepository
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
-class ShoppingListViewModel(private val itemRepository: ItemRepository) :
+class ShoppingListVM(private val itemRepository: ItemRepository) :
     ViewModel() {
     private val _items = itemRepository.getItems()
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
@@ -22,7 +22,10 @@ class ShoppingListViewModel(private val itemRepository: ItemRepository) :
 
             ItemEvent.HideDialog -> {
                 _state.update{ it.copy(
-                    isAddingItem = false
+                    name = "",
+                    quantity = "",
+                    isAddingItem = false,
+                    id = 0
                 ) }
             }
 

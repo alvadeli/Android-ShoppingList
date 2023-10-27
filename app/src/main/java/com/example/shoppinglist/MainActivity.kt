@@ -27,9 +27,9 @@ class MainActivity : ComponentActivity() {
         setContent {
             ShoppingListTheme {
 
-                val viewModel = viewModel<ShoppingListViewModel>(
+                val viewModel = viewModel<ShoppingListVM>(
                     factory = viewModelFactory {
-                        ShoppingListViewModel(ShoppingListApp.appModule.itemRepository)
+                        ShoppingListVM(ShoppingListApp.appModule.itemRepository)
                     }
                 )
 
