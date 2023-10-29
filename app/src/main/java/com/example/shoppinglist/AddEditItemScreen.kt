@@ -1,12 +1,14 @@
 package com.example.shoppinglist
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
@@ -50,15 +52,20 @@ fun AddItemDialog(
                     }
                 )
 
-                TextField(
-                    value = state.quantity,
-                    onValueChange = {
-                        onEvent(ItemEvent.SetQuantity(it))
-                    },
-                    placeholder = {
-                        Text(text = "Quantity")
-                    }
-                )
+                Row {
+                    TextField(
+                        value = state.quantity,
+                        onValueChange = {
+                            onEvent(ItemEvent.SetQuantity(it))
+                        },
+                        placeholder = {
+                            Text(text = "Quantity")
+                        },
+//                        keyboardOptions = KeyboardOptions.Default.copy(
+//                            keyboardType = KeyboardType.Number
+//                        )
+                    )
+                }
 
             }
         },

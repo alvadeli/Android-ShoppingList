@@ -11,4 +11,5 @@ sealed interface ItemEvent {
     object ShowDialog: ItemEvent
     object HideDialog: ItemEvent
     data class DeleteItem(val item: Item) : ItemEvent
+    object DeleteDoneItems : ItemEvent
 }

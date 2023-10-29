@@ -64,8 +64,6 @@ class ShoppingListVM(private val itemRepository: ItemRepository) :
                     completed = false,
                     id = 0
                 )}
-
-
             }
 
             is ItemEvent.SetName -> {
@@ -94,9 +92,13 @@ class ShoppingListVM(private val itemRepository: ItemRepository) :
                         quantity = item?.quantity ?: "",
                         id = item?.id ?:0
                     )}
-
                 }
+            }
 
+            ItemEvent.DeleteDoneItems -> {
+                viewModelScope.launch{
+                    itemRepository.deleteCompletedItems()
+                }
             }
         }
 

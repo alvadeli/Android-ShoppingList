@@ -14,6 +14,10 @@ class ItemRepositoryImpl(
         dao.deleteItem(item)
     }
 
+    override suspend fun deleteCompletedItems() {
+        dao.deleteCompletedItems()
+    }
+
     override suspend fun getItemById(id: Int): Item? {
         return dao.getItemById(id)
     }
