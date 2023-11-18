@@ -2,10 +2,7 @@ package com.example.shoppinglist
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.AlertDialog
-import androidx.compose.material.Button
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
@@ -59,7 +56,7 @@ fun AddItemDialog(
                             onEvent(ItemEvent.SetQuantity(it))
                         },
                         placeholder = {
-                            Text(text = "Quantity")
+                            Text(text = "Quantity (Optional)")
                         },
 //                        keyboardOptions = KeyboardOptions.Default.copy(
 //                            keyboardType = KeyboardType.Number
@@ -76,12 +73,21 @@ fun AddItemDialog(
                     .padding(25.dp, 0.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Button(onClick = {
+                Button(
+                    colors = ButtonDefaults.buttonColors(
+                        backgroundColor = MaterialTheme.colors.secondary
+                    ),
+                    onClick = {
                     onEvent(ItemEvent.HideDialog)
-                }) {
+                }
+
+                    ) {
                     Text(text = "Cancel")
                 }
                 Button(
+                    colors = ButtonDefaults.buttonColors(
+                        backgroundColor = MaterialTheme.colors.secondary
+                    ),
                     onClick = {
                     onEvent(ItemEvent.SaveItem)
                 }) {

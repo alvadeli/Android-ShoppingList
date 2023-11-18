@@ -42,7 +42,7 @@ class ShoppingListVM(private val itemRepository: ItemRepository) :
                 val quantity = state.value.quantity
                 val id = state.value.id
 
-                if(name.isBlank() || quantity.isBlank()){
+                if(name.isBlank()){
                     return
                 }
 

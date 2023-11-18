@@ -9,6 +9,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -25,7 +26,7 @@ fun AddItemViewPreview() {
     val item = Item(
         name = "Paprika",
         quantity = "2",
-        isDone = false
+        isDone = true
     )
 
     ItemView(
@@ -69,7 +70,10 @@ fun createItemString(item: Item): AnnotatedString
     if (!item.isDone) return baseString
 
     return  buildAnnotatedString {
-        withStyle(style = SpanStyle(textDecoration = TextDecoration.LineThrough)) {
+        withStyle(style = SpanStyle(
+            textDecoration = TextDecoration.LineThrough,
+            color = Color.Gray)
+            ) {
             append(baseString)
         }
     }
